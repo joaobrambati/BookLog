@@ -2,6 +2,8 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Application.Extensions;
 using Infrastructure.Extensions;
+using Domain.Entities;
+using Application.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,8 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddApplicationDI();
 builder.Services.AddInfrastructureDI();
+
+builder.Services.AddAutoMapper(typeof(LivroProfile));
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
