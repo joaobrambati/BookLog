@@ -29,7 +29,7 @@ public class LivroService : ILivroService
 
             var livrosMapeados = _mapper.Map<List<LivroDto>>(livros);
 
-            return Response<List<LivroDto>>.Success(livrosMapeados, "Livros listados com sucesso.");
+            return Response<List<LivroDto>>.Success(livrosMapeados, "Livros listados com sucesso.", livrosMapeados.Count);
         }
         catch (Exception ex)
         {

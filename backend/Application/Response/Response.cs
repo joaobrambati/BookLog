@@ -1,15 +1,21 @@
-﻿namespace Application.Response;
+﻿using System.Text.Json.Serialization;
+
+namespace Application.Response;
 
 public class Response<T>
 {
     public T? Data { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public int? Total { get; set; }
+
     public bool Status { get; set; }
     public required string Message { get; set; }
 
 
-    public static Response<T> Success(T data, string message)
+    public static Response<T> Success(T data, string message, int? total = null)
     {
-        return new Response<T> { Data = data, Status = true, Message = message };
+        return new Response<T> { Data = data, Total = total, Status = true, Message = message };
     }
 
     public static Response<T> Error(string message)
