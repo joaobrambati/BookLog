@@ -12,20 +12,12 @@ public class Response<T>
     public bool Status { get; set; }
     public required string Message { get; set; }
 
-
     public static Response<T> Success(T data, string message, int? total = null)
-    {
-        return new Response<T> { Data = data, Total = total, Status = true, Message = message };
-    }
+        => new() { Data = data, Total = total, Status = true, Message = message };
 
     public static Response<T> Error(string message)
-    {
-        return new Response<T> { Status = false, Message = message };
-    }
+        => new() { Status = false, Message = message };
 
     public static Response<T> NotFound(string message)
-    {
-        return new Response<T> { Status = false, Message = message };
-    }
-
+        => new() { Status = false, Message = message };
 }
