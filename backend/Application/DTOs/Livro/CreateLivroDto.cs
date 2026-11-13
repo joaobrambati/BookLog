@@ -36,7 +36,7 @@ public class CreateLivroDto
     [EnumDataType(typeof(TipoAudio), ErrorMessage = "Tipo de áudio inválido.")]
     public TipoAudio? TipoAudio { get; set; }
 
-    [Range(0.0, double.MaxValue, ErrorMessage = "O valor não pode ser negativo.")]
+    [Range(typeof(decimal), "0", "9999999999999999.99", ParseLimitsInInvariantCulture = true, ErrorMessage = "O valor não pode ser negativo.")]
     public decimal Valor { get; set; }
     public string? PlataformaCompra { get; set; }
     [Url(ErrorMessage = "O link deve ser uma URL válida.")]
