@@ -5,6 +5,7 @@ namespace Application.Services.Interfaces;
 
 public interface IUsuarioService
 {
+    Task<Response<UsuarioDto>> Create(CreateUsuarioDto dto);
     Task<Response<UsuarioDto>> GetById(int id);
     Task<Response<UsuarioDto>> Update(int id, UpdateUsuarioDto dto);
 }

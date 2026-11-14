@@ -15,6 +15,16 @@ public class UsuarioController : ControllerBase
         _service = service;
     }
 
+    [HttpPost("criarUsuario")]
+    public async Task<IActionResult> Create([FromBody] CreateUsuarioDto dto)
+    {
+        var response = await _service.Create(dto);
+
+        if (!response.Status) return BadRequest(response);
+
+        return Ok(response);
+    }
+
     [HttpGet("obterUsuarioPorId/{id}")]
     public async Task<IActionResult> GetById(int id)
     {
