@@ -13,8 +13,8 @@ public class Livro
     public string? Autor { get; set; }
     public string? Sinopse { get; set; }
     public int? AnoPublicacao { get; set; }
-    public DateTime? DataInicioLeitura { get; set; }
-    public DateTime? DataFimLeitura { get; set; }
+    public DateOnly? DataInicioLeitura { get; set; }
+    public DateOnly? DataFimLeitura { get; set; }
     public int? NumeroPaginas { get; set; }
     public Categoria Categoria { get; set; }
 

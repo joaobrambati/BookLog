@@ -12,8 +12,8 @@ public class CreateLivroDto
     public string? Sinopse { get; set; }
     public int? AnoPublicacao { get; set; }
 
-    public DateTime? DataInicioLeitura { get; set; }
-    public DateTime? DataFimLeitura { get; set; }
+    public DateOnly? DataInicioLeitura { get; set; }
+    public DateOnly? DataFimLeitura { get; set; }
 
     [Range(1, int.MaxValue, ErrorMessage = "O número de páginas deve ser maior que zero.")]
     public int? NumeroPaginas { get; set; }
