@@ -35,7 +35,7 @@ dotnet ef database update --project Infrastructure --startup-project BookLogApi
 ```
 
 > Sem o `dotnet-ef` instalado, dá para rodar com o .NET 10 SDK usando
-> `dotnet dnx dotnet-ef@9.0.1 --yes --source https://api.nuget.org/v3/index.json database update --project Infrastructure --startup-project BookLogApi`
+> `dotnet dnx dotnet-ef@10.0.15 --yes --source https://api.nuget.org/v3/index.json database update --project Infrastructure --startup-project BookLogApi`
 
 ### 3. API
 
