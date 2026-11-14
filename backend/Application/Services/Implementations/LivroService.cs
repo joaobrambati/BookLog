@@ -10,11 +10,13 @@ namespace Application.Services.Implementations;
 public class LivroService : ILivroService
 {
     private readonly ILivroRepository _repository;
+    private readonly IUsuarioRepository _usuarioRepository;
     private readonly IMapper _mapper;
 
-    public LivroService(ILivroRepository repository, IMapper mapper)
+    public LivroService(ILivroRepository repository, IUsuarioRepository usuarioRepository, IMapper mapper)
     {
         _repository = repository;
+        _usuarioRepository = usuarioRepository;
         _mapper = mapper;
     }
 
@@ -60,6 +62,11 @@ public class LivroService : ILivroService
     {
         try
         {
+            var usuario = await _usuarioRepository.GetById(dto.UsuarioId);
+
+            if (usuario is null)
+                return Response<LivroDto>.NotFound("Usuário não encontrado.");
+
             var livro = _mapper.Map<Livro>(dto);
 
             await _repository.Create(livro);

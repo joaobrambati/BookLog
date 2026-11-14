@@ -5,6 +5,9 @@ namespace Application.DTOs.Livro;
 
 public class CreateLivroDto
 {
+    [Range(1, int.MaxValue, ErrorMessage = "O usuário é obrigatório.")]
+    public int UsuarioId { get; set; }
+
     [Required(ErrorMessage = "O nome é obrigatório.")]
     [StringLength(200, ErrorMessage = "O nome deve ter no máximo 200 caracteres.")]
     public string Nome { get; set; } = null!;

@@ -34,4 +34,7 @@ public class Livro
     public string? PlataformaCompra { get; set; }
     public string? Link { get; set; }
     public bool Favorito { get; set; }
+
+    public int UsuarioId { get; set; }
+    public Usuario Usuario { get; set; } = null!;
 }

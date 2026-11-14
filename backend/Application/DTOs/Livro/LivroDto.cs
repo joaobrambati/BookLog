@@ -5,6 +5,7 @@ namespace Application.DTOs.Livro;
 public class LivroDto
 {
     public int Id { get; set; }
+    public int UsuarioId { get; set; }
 
     public string Nome { get; set; } = null!;
     public string? Autor { get; set; }

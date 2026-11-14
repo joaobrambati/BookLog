@@ -9,6 +9,7 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationDI(this IServiceCollection services)
     {
         services.AddScoped<ILivroService, LivroService>();
+        services.AddScoped<IUsuarioService, UsuarioService>();
 
         return services;
     }
