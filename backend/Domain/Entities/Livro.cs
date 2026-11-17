@@ -9,7 +9,7 @@ public class Livro
     [Key]
     public int Id { get; set; }
     public required string Nome { get; set; }
-    //public string CapaImg { get; set; }
+    public string? CapaUrl { get; set; }
     public string? Autor { get; set; }
     public string? Sinopse { get; set; }
     public int? AnoPublicacao { get; set; }

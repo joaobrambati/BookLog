@@ -39,6 +39,9 @@ namespace Infrastructure.Migrations
                     b.Property<decimal?>("Avaliacao")
                         .HasColumnType("decimal(2,1)");
 
+                    b.Property<string>("CapaUrl")
+                        .HasColumnType("text");
+
                     b.Property<int>("Categoria")
                         .HasColumnType("integer");
 
@@ -108,6 +111,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FotoUrl")
                         .HasColumnType("text");
 
                     b.Property<int?>("MetaSemanalMinutos")

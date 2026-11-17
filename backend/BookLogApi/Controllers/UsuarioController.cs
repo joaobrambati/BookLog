@@ -39,4 +39,14 @@ public class UsuarioController : ControllerBase
         return Ok(response);
     }
 
+    [HttpPut("atualizarFoto")]
+    public async Task<IActionResult> AtualizarFoto(IFormFile arquivo)
+    {
+        var response = await _service.AtualizarFoto(User.ObterUsuarioId(), arquivo);
+
+        if (!response.Status) return BadRequest(response);
+
+        return Ok(response);
+    }
+
 }

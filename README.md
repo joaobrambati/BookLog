@@ -34,6 +34,16 @@ cd backend/BookLogApi
 dotnet user-secrets set "Jwt:Key" ([Convert]::ToBase64String([Security.Cryptography.RandomNumberGenerator]::GetBytes(64)))
 ```
 
+### 1.2 Supabase Storage (imagens)
+
+As fotos de perfil e capas ficam no bucket público `images` do Supabase Storage. A URL do projeto fica em **Project Settings → Data API** e a chave secreta em **Project Settings → API Keys** (`sb_secret_...` ou a legada `service_role`):
+
+```powershell
+cd backend/BookLogApi
+dotnet user-secrets set "Supabase:Url" 'https://<ID_DO_PROJETO>.supabase.co'
+dotnet user-secrets set "Supabase:SecretKey" '<CHAVE_SECRETA>'
+```
+
 ### 2. Migrations
 
 Para criar ou atualizar as tabelas no banco:

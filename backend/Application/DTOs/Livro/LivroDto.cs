@@ -8,6 +8,7 @@ public class LivroDto
     public int UsuarioId { get; set; }
 
     public string Nome { get; set; } = null!;
+    public string? CapaUrl { get; set; }
     public string? Autor { get; set; }
     public string? Sinopse { get; set; }
     public int? AnoPublicacao { get; set; }

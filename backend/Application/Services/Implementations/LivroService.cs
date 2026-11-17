@@ -1,9 +1,12 @@
 ﻿using Application.DTOs.Livro;
+using Application.Helpers;
 using Application.Response;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Infrastructure.Repositories.Interfaces;
+using Infrastructure.Storage.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services.Implementations;
 
@@ -11,12 +14,14 @@ public class LivroService : ILivroService
 {
     private readonly ILivroRepository _repository;
     private readonly IUsuarioRepository _usuarioRepository;
+    private readonly IArmazenamentoService _armazenamento;
     private readonly IMapper _mapper;
 
-    public LivroService(ILivroRepository repository, IUsuarioRepository usuarioRepository, IMapper mapper)
+    public LivroService(ILivroRepository repository, IUsuarioRepository usuarioRepository, IArmazenamentoService armazenamento, IMapper mapper)
     {
         _repository = repository;
         _usuarioRepository = usuarioRepository;
+        _armazenamento = armazenamento;
         _mapper = mapper;
     }
 
@@ -119,6 +124,12 @@ public class LivroService : ILivroService
             _repository.Delete(livro);
             await _repository.SaveChangesAsync();
 
+            // Remove a capa do Storage junto com o livro (se falhar, o livro já foi excluído)
+            if (livro.CapaUrl is not null)
+            {
+                try { await _armazenamento.Remover(livro.CapaUrl); } catch { }
+            }
+
             return new Response<bool> { Status = true, Message = "Livro deletado com sucesso." };
         }
         catch (Exception ex)
@@ -126,5 +137,45 @@ public class LivroService : ILivroService
             return new Response<bool> { Status = false, Message = ex.Message };
         }
     }
-     
+
+    public async Task<Response<LivroDto>> AtualizarCapa(int id, IFormFile arquivo, int usuarioId)
+    {
+        try
+        {
+            var erroImagem = ImagemHelper.Validar(arquivo);
+
+            if (erroImagem is not null)
+                return Response<LivroDto>.Error(erroImagem);
+
+            var livro = await _repository.GetById(id);
+
+            if (livro is null || livro.UsuarioId != usuarioId)
+                return Response<LivroDto>.NotFound("Livro não encontrado.");
+
+            var caminho = $"livros/{usuarioId}/{id}/{ImagemHelper.GerarNomeArquivo(arquivo)}";
+
+            await using var conteudo = arquivo.OpenReadStream();
+            var novaUrl = await _armazenamento.Enviar(conteudo, caminho, arquivo.ContentType);
+
+            var capaAntiga = livro.CapaUrl;
+            livro.CapaUrl = novaUrl;
+
+            _repository.Update(livro);
+            await _repository.SaveChangesAsync();
+
+            // Remove a capa antiga do Storage (se falhar, não impede a troca)
+            if (capaAntiga is not null)
+            {
+                try { await _armazenamento.Remover(capaAntiga); } catch { }
+            }
+
+            var livroMapeado = _mapper.Map<LivroDto>(livro);
+
+            return Response<LivroDto>.Success(livroMapeado, "Capa atualizada com sucesso.");
+        }
+        catch (Exception ex)
+        {
+            return Response<LivroDto>.Error(ex.Message);
+        }
+    }
 }

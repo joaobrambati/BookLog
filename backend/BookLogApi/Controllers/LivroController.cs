@@ -69,4 +69,14 @@ public class LivroController : ControllerBase
         return Ok(response);
     }
 
+    [HttpPut("atualizarCapa/{id}")]
+    public async Task<IActionResult> AtualizarCapa(int id, IFormFile arquivo)
+    {
+        var response = await _service.AtualizarCapa(id, arquivo, User.ObterUsuarioId());
+
+        if (!response.Status) return BadRequest(response);
+
+        return Ok(response);
+    }
+
 }
