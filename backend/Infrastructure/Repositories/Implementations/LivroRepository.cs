@@ -14,8 +14,8 @@ public class LivroRepository : ILivroRepository
         _context = context;
     }
 
-    public async Task<List<Livro>> GetAll()
-        => await _context.Livros.ToListAsync();
+    public async Task<List<Livro>> GetAll(int usuarioId)
+        => await _context.Livros.Where(l => l.UsuarioId == usuarioId).ToListAsync();
 
     public async Task<Livro?> GetById(int id)
         => await _context.Livros.FindAsync(id);

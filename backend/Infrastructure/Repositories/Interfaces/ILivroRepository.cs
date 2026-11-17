@@ -4,7 +4,7 @@ namespace Infrastructure.Repositories.Interfaces;
 
 public interface ILivroRepository
 {
-    Task<List<Livro>> GetAll();
+    Task<List<Livro>> GetAll(int usuarioId);
     Task<Livro?> GetById(int id);
     Task Create(Livro livro);
     void Update(Livro livro);
