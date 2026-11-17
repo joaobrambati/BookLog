@@ -2,7 +2,6 @@ using Application.DTOs.Usuario;
 using Application.Response;
 using Application.Services.Interfaces;
 using AutoMapper;
-using Domain.Entities;
 using Infrastructure.Repositories.Interfaces;
 
 namespace Application.Services.Implementations;
@@ -30,32 +29,6 @@ public class UsuarioService : IUsuarioService
             var usuarioMapeado = _mapper.Map<UsuarioDto>(usuario);
 
             return Response<UsuarioDto>.Success(usuarioMapeado, "Usuário exibido com sucesso.");
-        }
-        catch (Exception ex)
-        {
-            return Response<UsuarioDto>.Error(ex.Message);
-        }
-    }
-
-    public async Task<Response<UsuarioDto>> Create(CreateUsuarioDto dto)
-    {
-        try
-        {
-            dto.Email = dto.Email.Trim().ToLowerInvariant();
-
-            var usuarioExistente = await _repository.GetByEmail(dto.Email);
-
-            if (usuarioExistente is not null)
-                return Response<UsuarioDto>.Error("Já existe um usuário com este email.");
-
-            var usuario = _mapper.Map<Usuario>(dto);
-
-            await _repository.Create(usuario);
-            await _repository.SaveChangesAsync();
-
-            var usuarioMapeado = _mapper.Map<UsuarioDto>(usuario);
-
-            return Response<UsuarioDto>.Success(usuarioMapeado, "Usuário cadastrado com sucesso.");
         }
         catch (Exception ex)
         {

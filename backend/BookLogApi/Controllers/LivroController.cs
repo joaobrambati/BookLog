@@ -1,5 +1,7 @@
 ﻿using Application.DTOs.Livro;
 using Application.Services.Interfaces;
+using BookLogApi.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +9,7 @@ namespace BookLogApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class LivroController : ControllerBase
 {
     private readonly ILivroService _service;
@@ -19,7 +22,7 @@ public class LivroController : ControllerBase
     [HttpGet("obterTodosLivros")]
     public async Task<IActionResult> GetAll()
     {
-        var response = await _service.GetAll();
+        var response = await _service.GetAll(User.ObterUsuarioId());
 
         if (!response.Status) return NotFound(response);
 
@@ -29,7 +32,7 @@ public class LivroController : ControllerBase
     [HttpGet("obterLivroPorId/{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var response = await _service.GetById(id);
+        var response = await _service.GetById(id, User.ObterUsuarioId());
 
         if (!response.Status) return NotFound(response);
 
@@ -39,7 +42,7 @@ public class LivroController : ControllerBase
     [HttpPost("criarLivro")]
     public async Task<IActionResult> Create([FromBody] CreateLivroDto dto)
     {
-        var response = await _service.Create(dto);
+        var response = await _service.Create(dto, User.ObterUsuarioId());
 
         if (!response.Status) return BadRequest(response);
 
@@ -49,7 +52,7 @@ public class LivroController : ControllerBase
     [HttpPut("editarLivro/{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateLivroDto dto)
     {
-        var response = await _service.Update(id, dto);
+        var response = await _service.Update(id, dto, User.ObterUsuarioId());
 
         if (!response.Status) return NotFound(response);
 
@@ -59,7 +62,7 @@ public class LivroController : ControllerBase
     [HttpDelete("excluirLivro/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var response = await _service.Delete(id);
+        var response = await _service.Delete(id, User.ObterUsuarioId());
 
         if (!response.Status) return NotFound(response);
 

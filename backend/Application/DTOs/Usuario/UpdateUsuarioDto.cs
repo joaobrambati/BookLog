@@ -10,4 +10,6 @@ public class UpdateUsuarioDto
 
     [Range(1, 10080, ErrorMessage = "A meta semanal deve ser entre 1 minuto e 168 horas (uma semana).")]
     public int? MetaSemanalMinutos { get; set; }
+
+    //public string Foto { get; set; }
 }

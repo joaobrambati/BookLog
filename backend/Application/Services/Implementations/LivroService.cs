@@ -20,11 +20,11 @@ public class LivroService : ILivroService
         _mapper = mapper;
     }
 
-    public async Task<Response<List<LivroDto>>> GetAll()
+    public async Task<Response<List<LivroDto>>> GetAll(int usuarioId)
     {
         try
         {
-            var livros = await _repository.GetAll();
+            var livros = await _repository.GetAll(usuarioId);
 
             if (!livros.Any())
                 return Response<List<LivroDto>>.NotFound("Livros não encontrados.");
@@ -39,13 +39,13 @@ public class LivroService : ILivroService
         }
     }
 
-    public async Task<Response<LivroDto>> GetById(int id)
+    public async Task<Response<LivroDto>> GetById(int id, int usuarioId)
     {
         try
         {
             var livro = await _repository.GetById(id);
 
-            if (livro is null)
+            if (livro is null || livro.UsuarioId != usuarioId)
                 return Response<LivroDto>.NotFound("Livro não encontrado.");
 
             var livroMapeado = _mapper.Map<LivroDto>(livro);
@@ -58,16 +58,17 @@ public class LivroService : ILivroService
         }
     }
 
-    public async Task<Response<LivroDto>> Create(CreateLivroDto dto)
+    public async Task<Response<LivroDto>> Create(CreateLivroDto dto, int usuarioId)
     {
         try
         {
-            var usuario = await _usuarioRepository.GetById(dto.UsuarioId);
+            var usuario = await _usuarioRepository.GetById(usuarioId);
 
             if (usuario is null)
                 return Response<LivroDto>.NotFound("Usuário não encontrado.");
 
             var livro = _mapper.Map<Livro>(dto);
+            livro.UsuarioId = usuarioId;
 
             await _repository.Create(livro);
             await _repository.SaveChangesAsync();
@@ -82,13 +83,13 @@ public class LivroService : ILivroService
         }
     }
 
-    public async Task<Response<LivroDto>> Update(int id, UpdateLivroDto dto)
+    public async Task<Response<LivroDto>> Update(int id, UpdateLivroDto dto, int usuarioId)
     {
         try
         {
             var livro = await _repository.GetById(id);
 
-            if (livro is null)
+            if (livro is null || livro.UsuarioId != usuarioId)
                 return Response<LivroDto>.NotFound("Livro não encontrado.");
 
             _mapper.Map(dto, livro);
@@ -106,13 +107,13 @@ public class LivroService : ILivroService
         }
     }
 
-    public async Task<Response<bool>> Delete(int id)
+    public async Task<Response<bool>> Delete(int id, int usuarioId)
     {
         try
         {
             var livro = await _repository.GetById(id);
 
-            if (livro is null)
+            if (livro is null || livro.UsuarioId != usuarioId)
                 return new Response<bool> { Status = false, Message = "Livro não encontrado." };
 
             _repository.Delete(livro);
