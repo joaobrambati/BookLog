@@ -1,3 +1,4 @@
+using Application.DTOs.Auth;
 using Application.DTOs.Usuario;
 using AutoMapper;
 using Domain.Entities;
@@ -9,7 +10,7 @@ public class UsuarioProfile : Profile
     public UsuarioProfile()
     {
         CreateMap<Usuario, UsuarioDto>();
-        CreateMap<CreateUsuarioDto, Usuario>();
+        CreateMap<RegistrarDto, Usuario>();
         CreateMap<UpdateUsuarioDto, Usuario>();
     }
 }

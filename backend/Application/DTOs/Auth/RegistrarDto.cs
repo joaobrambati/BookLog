@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Application.DTOs.Usuario;
+namespace Application.DTOs.Auth;
 
-public class CreateUsuarioDto
+public class RegistrarDto
 {
     [Required(ErrorMessage = "O nome é obrigatório.")]
     [StringLength(200, ErrorMessage = "O nome deve ter no máximo 200 caracteres.")]
@@ -12,6 +12,10 @@ public class CreateUsuarioDto
     [EmailAddress(ErrorMessage = "Email inválido.")]
     [StringLength(254, ErrorMessage = "O email deve ter no máximo 254 caracteres.")]
     public string Email { get; set; } = null!;
+
+    [Required(ErrorMessage = "A senha é obrigatória.")]
+    [StringLength(100, MinimumLength = 8, ErrorMessage = "A senha deve ter entre 8 e 100 caracteres.")]
+    public string Senha { get; set; } = null!;
 
     [Range(1, 10080, ErrorMessage = "A meta semanal deve ser entre 1 minuto e 168 horas (uma semana).")]
     public int? MetaSemanalMinutos { get; set; }

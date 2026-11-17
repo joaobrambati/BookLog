@@ -25,6 +25,15 @@ dotnet user-secrets set "ConnectionStrings:DefaultConnection" "<connection strin
 > No PowerShell, se a senha tiver `$`, use aspas simples na connection string.
 > No Visual Studio também dá para editar pelo clique direito no projeto BookLogApi → **Manage User Secrets**.
 
+### 1.1 Chave do JWT
+
+A chave que assina os tokens de login também fica no user-secrets. Gere uma chave aleatória (no mínimo 32 caracteres) e salve:
+
+```powershell
+cd backend/BookLogApi
+dotnet user-secrets set "Jwt:Key" ([Convert]::ToBase64String([Security.Cryptography.RandomNumberGenerator]::GetBytes(64)))
+```
+
 ### 2. Migrations
 
 Para criar ou atualizar as tabelas no banco:
