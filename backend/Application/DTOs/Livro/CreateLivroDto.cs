@@ -21,6 +21,9 @@ public class CreateLivroDto
     [EnumDataType(typeof(Categoria), ErrorMessage = "Categoria inválida.")]
     public Categoria Categoria { get; set; }
 
+    [EnumDataType(typeof(Idioma), ErrorMessage = "Idioma inválido.")]
+    public Idioma? Idioma { get; set; }
+
     [Range(0.0, 5.0, ErrorMessage = "A avaliação deve estar entre 0 e 5.")]
     public decimal? Avaliacao { get; set; }
     [EnumDataType(typeof(StatusLeitura), ErrorMessage = "Status de leitura inválido.")]

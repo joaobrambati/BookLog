@@ -19,6 +19,7 @@ public class LivroDto
     public int? NumeroPaginas { get; set; }
 
     public Categoria Categoria { get; set; }
+    public Idioma? Idioma { get; set; }
 
     public decimal? Avaliacao { get; set; }
     public StatusLeitura Status { get; set; }

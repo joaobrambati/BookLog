@@ -54,6 +54,9 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("Favorito")
                         .HasColumnType("boolean");
 
+                    b.Property<int?>("Idioma")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Link")
                         .HasColumnType("text");
 

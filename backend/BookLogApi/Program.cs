@@ -59,6 +59,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
+// CORS: libera o front (endereços em Cors:Origens no appsettings)
+var origensFront = builder.Configuration.GetSection("Cors:Origens").Get<string[]>() ?? [];
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Front", policy =>
+        policy.WithOrigins(origensFront)
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -73,6 +84,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("Front");
 
 app.UseAuthentication();
 app.UseAuthorization();

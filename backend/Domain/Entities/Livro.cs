@@ -17,6 +17,7 @@ public class Livro
     public DateOnly? DataFimLeitura { get; set; }
     public int? NumeroPaginas { get; set; }
     public Categoria Categoria { get; set; }
+    public Idioma? Idioma { get; set; }
 
     [Column(TypeName = "decimal(2,1)")]
     public decimal? Avaliacao { get; set; }
